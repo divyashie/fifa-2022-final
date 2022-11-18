@@ -3,7 +3,7 @@ from PIL import Image
 import sqlite3
 from sqlite3 import Connection
 
-URI_SQLITE_DB = "test.db"
+URI_SQLITE_DB = st.secrets['sqlite']
 
 # # Store the initial value of widgets in session state
 # if "visibility" not in st.session_state:
