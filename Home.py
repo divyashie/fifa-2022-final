@@ -5,10 +5,10 @@ from sqlite3 import Connection
 
 URI_SQLITE_DB = "test.db"
 
-# Store the initial value of widgets in session state
-if "visibility" not in st.session_state:
-    st.session_state.visibility = "visible"
-    st.session_state.disabled = False
+# # Store the initial value of widgets in session state
+# if "visibility" not in st.session_state:
+#     st.session_state.visibility = "visible"
+#     st.session_state.disabled = False
 
 st.set_page_config(
 	page_title="Coup du Monde APSIM", 
@@ -47,10 +47,10 @@ def show_country():
             new_image = image.resize((600,400))
             st.image(new_image, caption='Qatar')
             text_input1 = st.text_input(
-            "Entrez le score prédit 👇",
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled, 
-            key="placeholder"
+            "Entrez le score prédit 👇"
+            # label_visibility=st.session_state.visibility,
+            # disabled=st.session_state.disabled, 
+            # key="placeholder"
             )
             submitted1 = st.form_submit_button('Score ⚽ ')
 
@@ -61,10 +61,10 @@ def show_country():
             new_image = image.resize((600,400))
             st.image(image, caption='Ecuador')
             text_input2 = st.text_input(
-            "Entrez le score prédit 👇",
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled, 
-            placeholder=st.session_state.placeholder, 
+            "Entrez le score prédit 👇"
+            # label_visibility=st.session_state.visibility,
+            # disabled=st.session_state.disabled, 
+            # placeholder=st.session_state.placeholder, 
             )
             submitted2 = st.form_submit_button('Score ⚽')   
     return text_input1, text_input2
