@@ -15,6 +15,7 @@ st.set_page_config(
 
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
 st.write("Veuillez ajouter votre pronostic pour le match!")
+st.markdown("<h4>Match pour le 22/11/22</h4>", unsafe_allow_html=True)
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -25,35 +26,35 @@ credentials = service_account.Credentials.from_service_account_info(
 client = Client(scope=scope,creds=credentials)
 spreadsheetname = "Database"
 spread = Spread(spreadsheetname,client = client)
-st.write(spread.url)
+#st.write(spread.url)
 
 sh = client.open(spreadsheetname)
 
 def write_name(): 
     st.write(st.session_state.text_key)
 
-def show_country(): 
+def match(country1, country2): 
     c1, c2 = st.columns(2)
     with c1: 
-        with st.form('Form1'): 
-            image = Image.open('images/qatar.png') 
+        with st.form(country1): 
+            image = Image.open(f"images/{country1}.png" ) 
             new_image = image.resize((600,400))
-            st.image(new_image, caption='Qatar')
+            st.image(new_image, caption=country1)
             text_input1 = st.text_input(
             "Entrez le score prédit 👇"
             )
             submitted1 = st.form_submit_button('Score ⚽ ')
 
-
     with c2: 
-        with st.form('Form2'): 
-            image = Image.open('images/Ecuador.png')
+        with st.form(country2): 
+            image = Image.open(f"images/{country2}.png" )
             new_image = image.resize((600,400))
-            st.image(image, caption='Ecuador')
+            st.image(image, caption=country2)
             text_input2 = st.text_input(
             "Entrez le score prédit 👇"
             )
             submitted2 = st.form_submit_button('Score ⚽')   
+
     return text_input1, text_input2
 
 def loadSpreadsheet(sheet): 
@@ -65,15 +66,23 @@ def updateSpreadsheet(sheet, dataframe):
     col = ['name', 'match1', 'score1', 'match2', 'score2']
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
-def submit(name, score1, score2): 
-    submitButton = st.button("Envoyer 💸")
-    match1 = "Qatar"
-    match2 = "Ecuador"
-    sheet = "sheet1" 
+def arrayCountries(name): 
+    matches = {'Argentina' : 'Saudi Arabia', 'Mexico' : 'Poland', 'Denmark' : 'Tunisia', 'France': 'Australia'}
+    res = []
+    for match1, match2 in matches.items(): 
+        score1, score2 = match(match1,match2)
+        result = {'name': name, 'match1':match1, 'score1': score1, 'match2': match2, 'score2': score2}
+        print(result)
+        res.append(result)
+    return res 
 
+def submit(name): 
+    res = arrayCountries(name)
+    submitButton = st.button("Envoyer 💸")
+    sheet = "sheet1" 
     if submitButton: 
-        my_dict = {'name': name, 'match1':match1, 'score1': score1, 'match2': match2, 'score2': score2}
-        current_df = pd.DataFrame([my_dict])
+        current_df = pd.DataFrame(res)
+        current_df.head()
         df = loadSpreadsheet(sheet)
         new_df = df.append(current_df, ignore_index=True)
         updateSpreadsheet(sheet, new_df)
@@ -82,8 +91,7 @@ def submit(name, score1, score2):
         
 def main(): 
     name = st.text_area('Entrez votre nom', on_change=write_name, key='text_key')
-    score1, score2 = show_country()
-    submit(name,score1,score2)
+    submit(name)
 
 if __name__ == "__main__": 
     main()
