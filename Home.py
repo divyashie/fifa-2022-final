@@ -15,7 +15,7 @@ st.set_page_config(
 
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
 st.write("Veuillez ajouter votre pronostic pour le match!")
-st.markdown("<h4>Match pour le 23/11/22</h4>", unsafe_allow_html=True)
+st.markdown("<h4>Match pour le 25/11/22 - 27/11/22</h4>", unsafe_allow_html=True)  #change
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -79,13 +79,16 @@ def loadSpreadsheet(sheet):
     df = DataFrame(worksheet.get_all_records())
     return df 
 
-def updateSpreadsheet(sheet, dataframe): 
-    col = ['name', 'match1', 'score1', 'match2', 'score2']
+def updateSpreadsheet(sheet, dataframe, col): 
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = {'Switzerland' : 'Cameroon', 'Brazil' : 'Serbia', 'Uruguay' : 'South Korea', 'Portugal': 'Ghana'}
+    matches = {'Qatar' : 'Senegal', 'Netherlands' : 'Ecuador', 'Wales' : 'Iran', 'England': 'USA',
+                'Poland' : 'Saudi Arabia', 'Argentina' : 'Mexico', 'Tunisia' : 'Australia', 'France' : 'Denmark', 
+                'Japan' : 'Costa Rica', 'Spain' : 'Germany', 'Belgium' : 'Morocco', 'Croatia' : 'Canada'
+                } #change
     res = []
+    col = ['name', 'match1', 'score1', 'match2', 'score2']
     with st.form('Test'): 
         name = st.text_area('Entrez votre nom', key='text_key')
         for match1, match2 in matches.items(): 
@@ -99,9 +102,9 @@ def arrayCountries():
             print(current_df)
             df = loadSpreadsheet(sheet)
             new_df = df.append(current_df, ignore_index=True)
-            updateSpreadsheet(sheet, new_df)
+            updateSpreadsheet(sheet, new_df, col)
             st.markdown("<h4>Merci pour votre réponse</h4>",unsafe_allow_html=True)
-        
+            
 def main(): 
     add_bg_from_local("images/wallpaper-opa.png")
     arrayCountries()
