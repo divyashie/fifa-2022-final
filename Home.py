@@ -76,14 +76,14 @@ def match(country1, country2):
 
 def loadSpreadsheet(sheet): 
     worksheet= sh.worksheet(sheet)
-    df = DataFrame(worksheet.get_all_records())
+    df = pd.DataFrame(worksheet.get_all_records())
     return df 
 
 def updateSpreadsheet(sheet, dataframe, col): 
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = { 'Cameroon' : 'Serbia', 'Brazil' : 'Switzerland', 'Portugal' : 'Uruguay'
+    matches = { 'Cameroon' : 'Serbia', 'South Korea' : 'Ghana', 'Brazil' : 'Switzerland', 'Portugal' : 'Uruguay'
             } #change
     res = []
     col = ['name', 'match1', 'score1', 'match2', 'score2']
