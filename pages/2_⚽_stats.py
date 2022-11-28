@@ -1,44 +1,56 @@
-# Read from one spreadsheet --> write results on another spreadsheet 
-# Create the Evaluate collect in the spreadsheet 
-# Get the values from googlesearch api 
-# Aggregate results per team 
-# Display results as a graph with plotly 
-
-# import streamlit as st 
-# import Home as h 
-# from googlesearch import search 
-# import requests 
-# from bs4 import BeautifulSoup
-
-#read data from google sheets 
-# existing_df = h.loadSpreadsheet(sheet='sheet1')
-
-# 2 lists of same length 
-# m1 = existing_df['match1'].unique()
-# m2 = existing_df['match2'].unique()
-
-# hash = {}
-# def actualScores(): 
-#     for i in len(m1): 
-#         #formulate google search here 
-#         if m1[i] 
-
-# text = "Argentina vs Saudi Arabia"
-# url = "https://google.com/search?q=" + text
-# print(url)
-
-# response = requests.get(url) #downloading html content of web page 
-# if response.status_code == 200: 
-#     soup = BeautifulSoup(response.content, 'html.parser')
-#     #divs = soup.find_all("div", class_="imso_mh__ma-sc-cont") 
-#     divs = soup.find_all("div", { "class" : "imso_mh__ma-sc-cont"}) 
-#     for each_div in divs: 
-#         print(each_div)
-
-# class you get the score is: 
-# <div class="imso_mh__l-tm-sc imso_mh__scr-it imso-light-font">1</div>
-
-
 import streamlit as st 
+import Home as h 
+from googlesearch import search 
+import requests 
+from bs4 import BeautifulSoup
 
-st.warning("Under Construction!")
+def liveScores(matchSearch): 
+    """
+    GET Live Scores from Google Search 
+    """
+    url = f"https://google.com/search?q={matchSearch}"
+    response = requests.get(url) #download html content of web page 
+    matchScores = []
+    try:
+        if response.status_code == 200: 
+            soup = BeautifulSoup(response.content, 'html.parser')
+            activities = soup.find_all("div", {"class": "BNeawe deIvCb AP7Wnd"})
+            retrieval = [activity.text for activity in activities]
+            print(retrieval)
+            if retrieval[0] == matchSearch and retrieval[1].isdigit() and retrieval[2].isdigit(): 
+                #Success!
+                matches = retrieval[0].split("vs")
+                matches = [m.strip() for m in matches]
+                scores = [int(retrieval[1]), int(retrieval[2])] 
+                matchScores = matches + scores 
+                return matchScores
+            else: 
+                print("No score in yet!") 
+    except requests.exceptions.HTTPError as e: 
+                print(e)
+    return None 
+
+def predictedScores(): 
+    #read data from google sheets 
+    existing_df = h.loadSpreadsheet(sheet='sheet1')
+    m1 = existing_df['match1'].unique()
+    m2 = existing_df['match2'].unique()
+    matches = m1 + " vs " + m2
+    print(matches)
+    hash_map = {}
+    for matchSearch in matches: 
+        if liveScores(matchSearch) is not None: 
+            hash_map[matchSearch] = liveScores(matchSearch)
+            #print(hash_map)
+        else: 
+            continue 
+    return hash_map 
+    #return st.dataframe(existing_df) 
+
+
+def main(): 
+    st.warning("Under Construction!")
+    #predictedScores()
+
+if __name__ == "__main__": 
+    main()
