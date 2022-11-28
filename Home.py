@@ -15,7 +15,7 @@ st.set_page_config(
 
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
 st.write("Veuillez ajouter votre pronostic pour le match!")
-st.markdown("<h4>Match pour le 25/11/22 - 27/11/22</h4>", unsafe_allow_html=True)  #change
+st.markdown("<h4>Match pour le 28/11/2022</h4>", unsafe_allow_html=True)  #change
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -83,14 +83,12 @@ def updateSpreadsheet(sheet, dataframe, col):
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = {'Qatar' : 'Senegal', 'Netherlands' : 'Ecuador', 'Wales' : 'Iran', 'England': 'USA',
-                'Poland' : 'Saudi Arabia', 'Argentina' : 'Mexico', 'Tunisia' : 'Australia', 'France' : 'Denmark', 
-                'Japan' : 'Costa Rica', 'Spain' : 'Germany', 'Belgium' : 'Morocco', 'Croatia' : 'Canada'
-                } #change
+    matches = { 'Cameroon' : 'Serbia', 'Brazil' : 'Switzerland', 'Portugal' : 'Uruguay'
+            } #change
     res = []
     col = ['name', 'match1', 'score1', 'match2', 'score2']
     with st.form('Test'): 
-        name = st.text_area('Entrez votre nom', key='text_key')
+        name = st.text_area("Entrez le nom de l'équipe", key='text_key')
         for match1, match2 in matches.items(): 
             score1, score2 = match(match1,match2)
             result = {'name': name, 'match1':match1, 'score1': score1, 'match2': match2, 'score2': score2}
