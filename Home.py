@@ -76,7 +76,7 @@ def match(country1, country2):
 
 def loadSpreadsheet(sheet): 
     worksheet= sh.worksheet(sheet)
-    df = pd.DataFrame(worksheet.get_all_values())
+    df = pd.DataFrame(worksheet.get_all_records())
     return df 
 
 def updateSpreadsheet(sheet, dataframe, col): 
