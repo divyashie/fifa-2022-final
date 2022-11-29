@@ -1,6 +1,7 @@
 import streamlit as st
 import Home as h  
 import numpy as np
+import pandas as pd 
 from pathlib import Path 
 
 st.subheader("Bienvenue à la page des scores!")
@@ -10,7 +11,9 @@ st.markdown("<ul><li>Prédiction de l'équipe gagnante ou du match nul = <b>1 po
 st.markdown("<ul><li>le défault = <b>0 point</b></ul></li>",unsafe_allow_html=True)
 
 def scoreLogic(): 
-    df = h.loadSpreadsheet('evaluate') 
+    worksheet = h.sh.worksheet('evaluate')
+    df = pd.DataFrame(worksheet.get_all_values())
+    #df = h.loadSpreadsheet('evaluate') 
     df.columns = df.iloc[0]  #set first row of dataframe to column names 
     df = df[1:] #set the data starting from second row 
     conditions = [((df['score1'] == df['actual1']) & (df['score2'] == df['actual2'])), 
