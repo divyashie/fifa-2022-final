@@ -41,26 +41,19 @@ def aggregateScores(df):
     scores.columns = ["nom d'équipe", "résultat"]
     scores = scores.sort_values(by="résultat", ascending=False)
     st.table(scores) 
+    return scores 
 
-def winnerAnnouncement(): 
-    st.markdown("<h4>Equipe en tête: <b>Thierry</b></h4>", unsafe_allow_html=True)
-    img_path = "images/winner_logo.png"
-    # img_bytes = Path(img_path).read_bytes()
-    # encoded = h.base64.b64encode(img_bytes).decode()
-    # img_html = "<img src='data:image/png;base64,{}' class='img-fluid'>".format(
-    #   encoded 
-    # )
-    # st.markdown(img_html, unsafe_allow_html=True)
-    # st.markdown("Equipe de <b>Thierry</b> en tête.", unsafe_allow_html=True)
-    col1, mid, col2 = st.columns([1,1,1])
-    with col1: 
-        st.image(img_path)
+def winnerAnnouncement(winner): 
+    st.markdown(f"<h4>Equipe en tête: <b>{winner}</b> <img src='images/winner_logo.png' alt=""></h4>", unsafe_allow_html=True)
+    st.image("images/thierry_team.png")
     st.balloons()
 
 def main(): 
+    print()
     df = scoreLogic()
-    aggregateScores(df)
-    winnerAnnouncement()
+    scores = aggregateScores(df)
+    winner = scores["nom d'équipe"].iloc[0]
+    winnerAnnouncement(winner)
 
 if __name__ == "__main__": 
     main()
