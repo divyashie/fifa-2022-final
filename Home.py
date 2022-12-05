@@ -15,7 +15,7 @@ st.set_page_config(
 
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
 st.write("Veuillez ajouter votre pronostic pour le match!")
-st.markdown("<h4>Match pour le 2/12/2022 à le 4/12/2022</h4>", unsafe_allow_html=True)  #change
+st.markdown("<h4>Match pour le 5/12/2022</h4>", unsafe_allow_html=True)  #change
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -83,8 +83,7 @@ def updateSpreadsheet(sheet, dataframe, col):
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = { 'South Korea' : 'Portugal', 'Ghana' : 'Uruguay', 'Serbia' : 'Switzerland', 'Cameroon' : 'Brazil', 'Netherlands' : 'USA', 'Argentina' : 'Australia', 'France' : 'Poland', 'England' : 'Senegal'
-            } #change
+    matches = { 'Japan' : 'Croatia', 'Brazil': 'South Korea'} #change
     res = []
     col = ['name', 'match1', 'score1', 'match2', 'score2']
     with st.form('Test'): 
