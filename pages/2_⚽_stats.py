@@ -89,7 +89,7 @@ def aggregateScores(df):
     return scores 
 
 def winnerAnnouncement(winner): 
-    st.markdown(f"<h4>Equipe en tête: <b>Christophe</b> et <b>Thierry</b> <img src='images/winner_logo.png' alt=""></h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4>Equipe en tête: <b>{winner}</b> <img src='images/winner_logo.png' alt=""></h4>", unsafe_allow_html=True)
     st.image("images/winners.png")
     st.balloons()
 
