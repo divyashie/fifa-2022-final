@@ -6,6 +6,7 @@ from gsheetsdb import connect
 from gspread_pandas import Spread,Client
 import pandas as pd 
 from pandas import DataFrame
+import time 
 
 st.set_page_config(
 	page_title="Coup du Monde APSIM", 
@@ -14,8 +15,8 @@ st.set_page_config(
 
 
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
-st.write("Veuillez ajouter votre pronostic pour le match!")
-st.markdown("<h4>Match pour le 6/12/2022</h4>", unsafe_allow_html=True)  #change
+#st.write("Veuillez ajouter votre pronostic pour le match!")
+#st.markdown("<h4>Match pour le 6/12/2022</h4>", unsafe_allow_html=True)  #change
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -28,7 +29,6 @@ spread = Spread(spreadsheetname,client = client)
 #st.write(spread.url)
 
 sh = client.open(spreadsheetname)
-
 
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image_file:
@@ -44,7 +44,6 @@ def add_bg_from_local(image_file):
     """,
     unsafe_allow_html=True
     )
-
 
 def write_name(): 
     st.write(st.session_state.text_key)
@@ -103,8 +102,14 @@ def arrayCountries():
             st.markdown("<h4>Merci pour votre réponse</h4>",unsafe_allow_html=True)
             
 def main(): 
-    add_bg_from_local("images/wallpaper-opa.png")
-    arrayCountries()
+    
+    st.image("images/Qatar_wallpaper.jpeg", width=800)
+    #add_bg_from_local("images/wallpaper-opa.png")
+    with st.spinner("Prochaine Match"): 
+        time.sleep(3)
+    st.info("Vendredi le 12/9/2022!")
+
+    #arrayCountries()
 
 if __name__ == "__main__": 
     main()
