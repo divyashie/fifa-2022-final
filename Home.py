@@ -1,22 +1,28 @@
 import streamlit as st 
 from PIL import Image 
+from pathlib import Path
 import base64
 from google.oauth2 import service_account
 from gsheetsdb import connect
 from gspread_pandas import Spread,Client
 import pandas as pd 
 from pandas import DataFrame
-import time 
+import streamlit.components.v1 as components
 
 st.set_page_config(
 	page_title="Coup du Monde APSIM", 
-	page_icon="images/world-cup.png"
+	page_icon="images/world-cup.png", 
+    initial_sidebar_state="expanded",
+	layout="wide"
 )
 
+st.image("images/apsim.png", width=75)
 
-st.markdown("<h1 style='text-align: center; color: navy blue;'>Prédiction Apsim de la coupe du monde 2022</h1>", unsafe_allow_html=True)
-#st.write("Veuillez ajouter votre pronostic pour le match!")
-#st.markdown("<h4>Match pour le 6/12/2022</h4>", unsafe_allow_html=True)  #change
+countdown_file = open("countdown.html", 'r')
+raw_file = countdown_file.read().encode("utf-8")
+raw_file = base64.b64encode(raw_file).decode()
+source_code = countdown_file.read()
+components.iframe(f"data:text/html;base64,{raw_file}", height=400)
 
 scope=[
          "https://www.googleapis.com/auth/spreadsheets", 'https://www.googleapis.com/auth/drive'
@@ -30,6 +36,7 @@ spread = Spread(spreadsheetname,client = client)
 
 sh = client.open(spreadsheetname)
 
+st.markdown("<h3 style='text-align: center; color: navy blue;'>Match pour le 9/12/22 et le 10/12/22 </h3>", unsafe_allow_html=True)
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
@@ -49,7 +56,7 @@ def write_name():
     st.write(st.session_state.text_key)
 
 def match(country1, country2): 
-    c1, c2 = st.columns(2)
+    c1, mid, c2 = st.columns([1,0.25,1])
     with c1: 
         image = Image.open(f"images/{country1}.png" ) 
         new_image = image.resize((600,400))
@@ -57,7 +64,14 @@ def match(country1, country2):
         text_input1 = c1.text_input(
             "Entrez le score prédit 👇", key=f"{country1}"
         )
-
+    with mid: 
+        st.write(" ")
+        st.write(" ")
+        st.write(" ")
+        st.write(" ")
+        st.write(" ")
+        st.write(" ")
+        st.image("images/vs.png")
     with c2: 
         image = Image.open(f"images/{country2}.png" )
         new_image = image.resize((600,400))
@@ -82,7 +96,7 @@ def updateSpreadsheet(sheet, dataframe, col):
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = { 'Morocco' : 'Spain', 'Portugal': 'Switzerland'} #change
+    matches = { 'Croatia' : 'Brazil', 'Netherlands': 'Argentina', 'Morocco' : 'Portugal', 'England': 'France'} #change
     res = []
     col = ['name', 'match1', 'score1', 'match2', 'score2']
     with st.form('Test'): 
@@ -102,14 +116,8 @@ def arrayCountries():
             st.markdown("<h4>Merci pour votre réponse</h4>",unsafe_allow_html=True)
             
 def main(): 
-    
-    st.image("images/Qatar_wallpaper.jpeg", width=800)
-    #add_bg_from_local("images/wallpaper-opa.png")
-    with st.spinner("Prochaine Match"): 
-        time.sleep(3)
-    st.info("Vendredi le 12/9/2022!")
-
-    #arrayCountries()
+    add_bg_from_local("images/wallpaper-opa.png")
+    arrayCountries()
 
 if __name__ == "__main__": 
     main()
