@@ -9,7 +9,6 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from st_aggrid.shared import JsCode
 from streamlit.components.v1 import html 
 
-st.set_page_config(layout="wide")
 st.markdown("<h1 style='text-align: center; color: navy blue;'>Bienvenue à la page des scores</h1>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 with col1: 
