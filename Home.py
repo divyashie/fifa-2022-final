@@ -36,7 +36,7 @@ spread = Spread(spreadsheetname,client = client)
 
 sh = client.open(spreadsheetname)
 
-st.markdown("<h3 style='text-align: center; color: navy blue;'>Match pour le 13/12/22 et le 14/12/22 </h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center; color: Black;'>Third & Finals </h3>", unsafe_allow_html=True)
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
@@ -96,7 +96,7 @@ def updateSpreadsheet(sheet, dataframe, col):
     spread.df_to_sheet(dataframe[col], sheet=sheet, index=False)
 
 def arrayCountries(): 
-    matches = { 'Argentina' : 'Croatia', 'France' : 'Morocco'} #change
+    matches = { 'Croatia' : 'Morocco', 'Argentina' : 'France'} #change
     res = []
     col = ['name', 'match1', 'score1', 'match2', 'score2']
     with st.form('Test'): 
